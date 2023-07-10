@@ -20,7 +20,7 @@ CREATE TABLE users (
 	user_id SERIAL PRIMARY KEY,
 	username VARCHAR(20) UNIQUE NOT NULL,
 	email VARCHAR(50) UNIQUE NOT NULL,
-	creation_date DATE TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	creation_date DATE DEFAULT NOW(),
 	is_active BOOLEAN
 );
 ```
@@ -40,7 +40,7 @@ INSERT INTO users(username, email, creation_date, is_active) VALUES('new_user', 
 CREATE TABLE categories(
 	category_id SERIAL PRIMARY KEY,
 	name VARCHAR(50) UNIQUE NOT NULL,
-	creation_date DATE TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	creation_date DATE DEFAULT NOW()
 );
 ```
 
@@ -66,7 +66,7 @@ CREATE TABLE posts(
 	title VARCHAR(50) NOT NULL,
 	content TEXT NOT NULL,
 	view_count INTEGER DEFAULT 0,
-	creation_date DATE TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	creation_date DATE DEFAULT NOW(),
 	is_published BOOLEAN
 );
 ```
@@ -182,7 +182,7 @@ CREATE TABLE comments(
 	post_id INTEGER REFERENCES posts(post_id) NOT NULL,
 	user_id INTEGER REFERENCES users(user_id),
 	comment TEXT NOT NULL,
-	creation_date DATE TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	creation_date DATE DEFAULT NOW(),
 	is_confirmed BOOLEAN
 );
 ```
