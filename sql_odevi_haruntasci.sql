@@ -7,7 +7,7 @@ CREATE TABLE users (
 	user_id SERIAL PRIMARY KEY,
 	username VARCHAR(20) UNIQUE NOT NULL,
 	email VARCHAR(50) UNIQUE NOT NULL,
-	creation_date DATE TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	creation_date DATE DEFAULT NOW(),
 	is_active BOOLEAN
 );
 
@@ -27,7 +27,7 @@ INSERT INTO users(username, email, creation_date, is_active) VALUES('new_user', 
 CREATE TABLE categories(
 	category_id SERIAL PRIMARY KEY,
 	name VARCHAR(50) UNIQUE NOT NULL,
-	creation_date DATE TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	creation_date DATE DEFAULT NOW()
 );
 
 --categories tablosunda minimum 3 kategori bulunmalıdır. 9 kategori eklendi.
@@ -60,7 +60,7 @@ CREATE TABLE posts(
 	title VARCHAR(50) NOT NULL,
 	content TEXT NOT NULL,
 	view_count INTEGER DEFAULT 0,
-	creation_date DATE TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	creation_date DATE DEFAULT NOW(),
 	is_published BOOLEAN
 );
 
@@ -181,7 +181,7 @@ CREATE TABLE comments(
 	post_id INTEGER REFERENCES posts(post_id) NOT NULL,
 	user_id INTEGER REFERENCES users(user_id),
 	comment TEXT NOT NULL,
-	creation_date DATE TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	creation_date DATE DEFAULT NOW(),
 	is_confirmed BOOLEAN
 );
 
@@ -489,12 +489,11 @@ INSERT INTO comments (post_id, user_id, comment, creation_date, is_confirmed) VA
 INSERT INTO comments (post_id, user_id, comment, creation_date, is_confirmed) VALUES (95, 1, 'Pellentesque ultrices mattis odio. Donec vitae nisi.', '2022/02/24', false);
 INSERT INTO comments (post_id, user_id, comment, creation_date, is_confirmed) VALUES (72, 5, 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.', '2020/12/08', true);
 
-
 /*Veritabanında Gerçekleştirmek İstediğimiz İşlemler*/
 
 -- 1. Tüm blog yazılarını başlıkları, yazarları ve kategorileriyle birlikte getirin.
 
-SELECT posts.title, users.username, categories.name FROM posts
+SELECT posts.title, users.username, categories.name AS category FROM posts
 JOIN users ON users.user_id = posts.user_id
 JOIN categories ON categories.category_id = posts.category_id;
 
